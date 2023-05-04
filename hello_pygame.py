@@ -32,9 +32,14 @@ def main():
     player_image = pygame.image.load("doraemon.jpg").convert()
 
     while True:
-        pygame.event.clear()
-        key_pressed = pygame.key.get_pressed()
-        if key_pressed[pygame.K_ESCAPE]:
+        should_quit = False
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                should_quit = True
+            elif event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    should_quit = True
+        if should_quit:
             break
         mouse_pos = pygame.mouse.get_pos()
         draw(screen, player_image, text_image, mouse_pos)
@@ -42,4 +47,5 @@ def main():
     pygame.quit()
 
 
-main()
+if __name__ == "__main__":
+    main()
