@@ -29,7 +29,7 @@ def draw(screen, player_image, text_image, mouse_pos):
 def main():
     screen = init_screen()
     text_image = create_text()
-    player_image = pygame.image.load("doraemon.jpg").convert()
+    player_image = pygame.image.load("/home/yamaguchi/pygame/GDevelop-Examples/animation-speed-scale/p1_walk04.png").convert()
 
     while True:
         should_quit = False
