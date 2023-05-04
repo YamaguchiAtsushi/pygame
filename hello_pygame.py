@@ -1,9 +1,13 @@
 import pygame
 
 pygame.init()
-screen = pygame.display.set_mode((600, 400))
-font = pygame.font.Font(None, 50)
-text_image = font.render("hello, pygame", True, pygame.Color("green"))
+width, height = 600, 400
+screen = pygame.display.set_mode((width, height))
+font_size = 50
+font_file = None
+antialias = True
+font = pygame.font.Font(font_file, font_size)
+text_image = font.render("hello, pygame", antialias, pygame.Color("green"))
 player_image = pygame.image.load("doraemon.jpg").convert()
 
 while True:
@@ -16,7 +20,8 @@ while True:
     screen.fill(pygame.Color("black"))
     screen.blit(player_image, mouse_pos)
     mouse_x, mouse_y = mouse_pos
-    screen.blit(text_image, (mouse_x + 100, mouse_y))
+    text_offset_x = 100
+    screen.blit(text_image, (mouse_x + text_offset_x, mouse_y))
     pygame.display.update()
 
 pygame.quit()
