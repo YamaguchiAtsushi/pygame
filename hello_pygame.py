@@ -40,9 +40,13 @@ def main():
     screen = init_screen()
     text_image = create_text()
     player_images = create_player()
+    clock = pygame.time.Clock()
     frame_index = 0
 
     while True:
+        frames_per_second = 60
+        clock.tick(frames_per_second)
+
         should_quit = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -57,6 +61,8 @@ def main():
         mouse_pos = pygame.mouse.get_pos()
 
         frame_index += 1
+        animation_period = 6
+        animation_index = (frame_index // animation_period) % len(player_images)
         animation_index = frame_index % len(player_images)
         draw(screen, player_images[animation_index], text_image, mouse_pos)
 
