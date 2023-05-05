@@ -18,13 +18,9 @@ def create_text():
 
 
 def create_player():
-    player_images = [
-        pygame.image.load("/home/yamaguchi/pygame/GDevelop-Examples/animation-speed-scale/p1_walk04.png").convert(),
-        pygame.image.load("/home/yamaguchi/pygame/GDevelop-Examples/animation-speed-scale/p1_walk05.png").convert(),
-        pygame.image.load("/home/yamaguchi/pygame/GDevelop-Examples/animation-speed-scale/p1_walk06.png").convert(),
-        pygame.image.load("/home/yamaguchi/pygame/GDevelop-Examples/animation-speed-scale/p1_walk07.png").convert()
+    file_path = "/home/yamaguchi/pygame/GDevelop-Examples/animation-speed-scale/p1_walk{:02}.png"
+    player_images = [pygame.image.load(file_path.format(k)).convert() for k in range(4, 8)]
 
-    ]
     return player_images
 
 def draw(screen, player_image, text_image, mouse_pos):
