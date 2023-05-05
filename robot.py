@@ -38,7 +38,24 @@ class Landmark:
         radius = 5
         pygame.draw.rect(screen, pygame.Color("yellow"), (self.x, self.y, self.width, self.height), radius)
 
+class Camera:
+    def __init__(self, l_x, l_y, distance, arg, robot, landmark, color):
+        self.l_x = l_x
+        self.l_y = l_y
+        self.distance = distance
+        self.arg = arg
+        self.robot = robot
+        self.landmark = landmark
+        self.color = color
 
+    def calc(self, robot, landmark):
+        self.l_x = self.landmark.x - self.robot.x
+        self.l_y = self.landmark.y - self.robot.y
+        self.distance = math.sqrt(self.l_x **2 + self.l_y **2)
+        self.arg = math.atan2(self.l_y, self.l_x) - self.robot.yaw
+
+    def draw(self, screen):
+        pygame.draw.line(screen, pygame.Color(self.color), (self.x, self.y), (self.x + self.distance * math.cos(self.yaw), self.y + self.distance * math.sin(self.yaw)))
 
 def main():
     pygame.init()
@@ -50,15 +67,16 @@ def main():
 
     robot1 = Robot(x = 450, y = 200, yaw = 0, v = 100, w = 1, dt = 0.01, color = "red")
     robot2 = Robot(x = 450, y = 200, yaw = 0, v = 100, w = 1, dt = 0.01, color = "blue")
+    landmark1 = Landmark(100, 500, 10, 10)
+    landmark2 = Landmark(250, 100, 10, 10)
+    landmark3 = Landmark(700, 500, 10, 10)
 
     screen.fill(pygame.Color("white"))
 
     while True:
         frames_per_second = 60
         clock.tick(frames_per_second)
-        landmark1 = Landmark(100, 500, 10, 10)
-        landmark2 = Landmark(250, 100, 10, 10)
-        landmark3 = Landmark(700, 500, 10, 10)
+
         landmark_list.append(landmark1)
         landmark_list.append(landmark2)
         landmark_list.append(landmark3)
