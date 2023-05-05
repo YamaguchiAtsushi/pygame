@@ -39,23 +39,19 @@ class Landmark:
         pygame.draw.rect(screen, pygame.Color("yellow"), (self.x, self.y, self.width, self.height), radius)
 
 class Camera:
-    def __init__(self, l_x, l_y, distance, arg, robot, landmark, color):
-        self.l_x = l_x
-        self.l_y = l_y
-        self.distance = distance
-        self.arg = arg
+    def __init__(self, robot, landmark, color):
         self.robot = robot
         self.landmark = landmark
         self.color = color
 
-    def calc(self, robot, landmark):
+    def calc(self):
         self.l_x = self.landmark.x - self.robot.x
         self.l_y = self.landmark.y - self.robot.y
         self.distance = math.sqrt(self.l_x **2 + self.l_y **2)
         self.arg = math.atan2(self.l_y, self.l_x) - self.robot.yaw
 
     def draw(self, screen):
-        pygame.draw.line(screen, pygame.Color(self.color), (self.x, self.y), (self.x + self.distance * math.cos(self.yaw), self.y + self.distance * math.sin(self.yaw)))
+        pygame.draw.line(screen, pygame.Color(self.color), (self.robot.x, self.robot.y), (self.robot.x + self.distance * math.cos(self.robot.yaw), self.robot.y + self.distance * math.sin(self.robot.yaw)))
 
 def main():
     pygame.init()
@@ -64,12 +60,17 @@ def main():
     clock = pygame.time.Clock()
 
     landmark_list = []
+    camera_list = []
 
     robot1 = Robot(x = 450, y = 200, yaw = 0, v = 100, w = 1, dt = 0.01, color = "red")
     robot2 = Robot(x = 450, y = 200, yaw = 0, v = 100, w = 1, dt = 0.01, color = "blue")
     landmark1 = Landmark(100, 500, 10, 10)
     landmark2 = Landmark(250, 100, 10, 10)
     landmark3 = Landmark(700, 500, 10, 10)
+    camera1 = Camera(robot1, landmark1, color = "black")
+    camera2 = Camera(robot1, landmark2, color = "black")
+    camera3 = Camera(robot1, landmark3, color = "black")
+
 
     screen.fill(pygame.Color("white"))
 
@@ -82,6 +83,14 @@ def main():
         landmark_list.append(landmark3)
         for landmark in landmark_list:
             landmark.draw(screen)
+
+        camera_list.append(camera1)
+        camera_list.append(camera2)
+        camera_list.append(camera3)
+        for camera in camera_list:
+            camera.calc()
+            camera.draw(screen)
+
         robot1.update()
         robot1.noise()
         robot1.draw(screen)
