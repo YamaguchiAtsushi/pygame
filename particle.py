@@ -26,7 +26,7 @@ def main():
                 if event.key == pygame.K_ESCAPE:
                     should_quit = True
             elif event.type == pygame.MOUSEBUTTONDOWN:
-                if event.button == 1:
+                if event.button == 1 and not particle_is_alive:
                     particle_is_alive = True
                     x, y = event.pos
                     vx = random.uniform(-10, 10)
@@ -38,6 +38,8 @@ def main():
             vy += gy * dt
             x += vx * dt
             y += vy * dt
+            if x < 0 or x >  width or y > height:
+                particle_is_alive = False
 
         screen.fill(pygame.Color("black"))
         if particle_is_alive:
