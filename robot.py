@@ -25,6 +25,7 @@ class Robot:
     def draw(self, screen):
         radius = 3
         pygame.draw.circle(screen, pygame.Color(self.color), (self.x, self.y), radius)
+        # pygame.draw.line(screen, pygame.Color(self.color), (self.x, self.y), (self.x + 30 * math.cos(self.yaw), self.y + 30 * math.sin(self.yaw)))
 
 class Landmark:
     def __init__(self, x, y, width, height):
@@ -35,7 +36,7 @@ class Landmark:
 
     def draw(self, screen):
         radius = 5
-        pygame.draw.rect(screen, pygame.Color("black"), (self.x, self.y, self.width, self.height), radius)
+        pygame.draw.rect(screen, pygame.Color("yellow"), (self.x, self.y, self.width, self.height), radius)
 
 
 
@@ -69,18 +70,6 @@ def main():
         robot2.update()
         robot2.draw(screen)
         pygame.display.update()
-
-    robot_list = []
-
-    while True:
-
-        robot_list.append(robot)
-        robot.update()
-        screen.fill(pygame.Color("black"))
-        for robot in robot_list:
-            robot.draw(screen)
-        pygame.display.update()
-    pygame.quit()
 
 if __name__ == "__main__":
     main()
