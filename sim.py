@@ -4,14 +4,13 @@ from matplotlib.animation import FuncAnimation
 import random
 import math
 class Robot:
-    def __init__(self, x, y, yaw, v, w, dt, color):
+    def __init__(self, x, y, yaw, v, w, dt):
         self. x = x
         self.y = y
         self.yaw = yaw
         self.v = v
         self.w = w
         self.dt = dt
-        self.color = color
 
     def noise(self):
         self.x += random.uniform(-2, 2)
@@ -21,29 +20,31 @@ class Robot:
         self.x += self.v * math.cos(self.yaw) * self.dt
         self.y += self.v * math.sin(self.yaw) * self.dt
         self.yaw += self.w * self.dt
+
         # self.noise()
 
-robot1 = Robot(x = 0, y = 0, yaw = 0, v = 1000, w = 10, dt = 0.01, color = "red")
+    def plot(self, robot_color):
+        sim_time_step = 0.001
 
-plot_size_x = 100
-plot_size_y = 100
-sim_time_step = 0.1
+        #plt.clf()
+        plt.xlim(-100, 100)
+        plt.ylim(-100, 100)
+        plt.grid(which='major', color='black', linestyle='-')
+        plt.plot(self.x, self.y, marker='o', color = robot_color, markersize=5)
+        plt.pause(sim_time_step)
 
-while True:
-    plt.clf()
-    plt.xlim(-500, 500)
-    plt.ylim(-500, 500)
-    plt.grid(which='major', color='black', linestyle='-')
-    # plt.grid(which='minor', color='black', linestyle='-')
-    # for i in range(len(self.landmarks)):
-    #     plt.plot(self.landmarks[i][0], self.landmarks[i][1], marker='o', color='black', markersize=30)
-    # for i in range(len(measurements)):
-    #     if measurements[i][0] > 0.0:
-    #         mx = measurements[i][0] * math.cos(yaw + measurements[i][1]) + x
-    #         my = measurements[i][0] * math.sin(yaw + measurements[i][1]) + y
-    #         plt.plot(mx, my, marker='o', color='red', markersize=20)
-    # plt.plot(self.gt_x, self.gt_y, marker='o', color='black', markersize=30)
-    robot1.update()
-    robot1.noise()
-    plt.plot(robot1.x, robot1.y, marker='o', color='green', markersize=20)
-    plt.pause(sim_time_step)
+def main():
+    robot1 = Robot(x = 0, y =-50, yaw = 0, v = 500, w = 10, dt = 0.01)
+    robot2 = Robot(x = 0, y =-50, yaw = 0, v = 500, w = 10, dt = 0.01)
+
+    while True:
+        robot1.plot("red")
+        robot1.update()
+        robot1.noise()
+        robot2.plot("blue")
+        robot2.update()
+
+
+
+if __name__ == "__main__":
+    main()
