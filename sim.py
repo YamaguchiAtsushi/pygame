@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import random
 import math
+import time
 class Robot:
     def __init__(self, x, y, yaw, v, w, dt):
         self. x = x
@@ -58,7 +59,7 @@ class Camera:
         self.l_x = self.landmark.x - self.robot.x
         self.l_y = self.landmark.y - self.robot.y
         self.distance = math.sqrt(self.l_x ** 2 + self.l_y ** 2)
-        self.arg = math.atan2(self.l_y, self.l_x) - self.robot.yaw
+        self.arg = math.atan2(self.l_y, self.l_x)
         # while self.arg >= np.pi:
         #     self.arg -= 2*np.pi
         # while self.arg < np.pi:
@@ -66,7 +67,8 @@ class Camera:
 
     def plot(self, camera_color):
         sim_time_step = 0.001
-        plt.plot((self.robot.x, self.robot.x + self.distance * math.cos(self.arg)), (self.robot.y,  self.robot.y + self.distance * math.sin(self.arg)), color = camera_color, markersize=5)
+        plt.plot((self.robot.x, self.robot.x + self.distance * math.cos(self.arg)), (self.robot.y,  self.robot.y + self.distance * math.sin(self.arg)), color = camera_color, markersize=10)
+
         print(self.arg)
         # plt.plot((self.robot.x, self.landmark.x), (self.robot.y,  self.landmark.y), color = camera_color, markersize=5)
 
@@ -97,9 +99,9 @@ def main():
         camera1.calc()
         camera2.calc()
         camera3.calc()
-        camera1.plot("black")
-        camera2.plot("black")
-        camera3.plot("black")
+        camera1.plot("pink")
+        camera2.plot("pink")
+        camera3.plot("pink")
 
 
 
