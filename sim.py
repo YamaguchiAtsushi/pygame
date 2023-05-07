@@ -14,9 +14,9 @@ class Robot:
         self.dt = dt
 
     def noise(self):
-        self.x += random.uniform(-2, 2)
-        self.y += random.uniform(-2, 2)
-        # self.yaw += random.uniform(-0.5, 0.5)
+        self.x += random.gauss(0, 0.5)
+        self.y += random.gauss(0, 0.5)
+        self.yaw += random.gauss(0, 0.1)
 
     def update(self):
         self.x += self.v * math.cos(self.yaw) * self.dt
@@ -26,7 +26,7 @@ class Robot:
         # self.noise()
 
     def plot(self, robot_color):
-        sim_time_step = 0.001
+        sim_time_step = 0.01
 
         #plt.clf()
         plt.xlim(-100, 100)
@@ -41,7 +41,7 @@ class Landmark:
         self.y = y
 
     def plot(self, landmark_color):
-        sim_time_step = 0.001
+        sim_time_step = 0.01
 
         #plt.clf()
         # plt.xlim(-100, 100)
@@ -59,7 +59,9 @@ class Camera:
         self.l_x = self.landmark.x - self.robot.x
         self.l_y = self.landmark.y - self.robot.y
         self.distance = math.sqrt(self.l_x ** 2 + self.l_y ** 2)
+        self.distance += random.gauss(0, 0.05)
         self.arg = math.atan2(self.l_y, self.l_x)
+        self.arg += random.gauss(0, 0.05)
         # while self.arg >= np.pi:
         #     self.arg -= 2*np.pi
         # while self.arg < np.pi:
