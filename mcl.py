@@ -1,7 +1,7 @@
 from sim import *
 
 class Particle():
-    def __init__(self, x, y, yaw, v, w, dt):
+    def __init__(self, x, y, yaw, v, w, dt, noise):
         self.x = x
         self.y = y
         self.yaw = yaw
@@ -11,15 +11,17 @@ class Particle():
         self.particles = []
         self.particles.append([self.x, self.y, self.yaw])
         self.particle_num = 100
+        self.noise = noise
 
     def update(self):
         self.x += self.v * math.cos(self.yaw) * self.dt
         self.y += self.v * math.sin(self.yaw) * self.dt
         self.yaw += self.w * self.dt
+        self.noise += 0.0001
         for i in range(self.particle_num):
-            self.x += random.gauss(0, 0.5)
-            self.y += random.gauss(0, 0.5)
-            self.yaw += random.gauss(0, 0.01)
+            self.x += random.gauss(0, 100 * self.noise)
+            self.y += random.gauss(0, 100 * self.noise)
+            self.yaw += random.gauss(0, 0.0001)
             self.particles.append([self.x, self.y, self.yaw])
             # print(i, "=", self.particles)
 
@@ -38,7 +40,7 @@ class Particle():
         del self.particles[:]
 
 def main():
-    particle = Particle(x = 0, y =-50, yaw = 0, v = 500, w = 10, dt = 0.01)
+    particle = Particle(x = 0, y =-50, yaw = 0, v = 500, w = 10, dt = 0.01, noise = 0.001)
 
     while True:
         particle.update()
