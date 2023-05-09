@@ -39,15 +39,40 @@ class Particle():
         plt.pause(sim_time_step)
         del self.particles[:]
 
+
+class Landmark:
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
+
+    def plot(self, landmark_color):
+        sim_time_step = 0.01
+        plt.plot(self.x, self.y, marker='o', color = landmark_color, markersize=5)
+        plt.pause(sim_time_step)
+
 def main():
+    plt.clf()
+    plt.xlim(-100, 100)
+    plt.ylim(-100, 100)
+    plt.grid(which='major', color='black', linestyle='-')
+
     particle = Particle(x = 0, y =-50, yaw = 0, v = 500, w = 10, dt = 0.01, noise = 0.001)
+
+    landmark1 = Landmark(-80, -70)
+    landmark2 = Landmark(80, -60)
+    landmark3 = Landmark(-50, 90)
+
 
     while True:
         particle.update()
         particle.plot("red")
-        print(particle.x, particle.y)
+        # print(particle.x, particle.y)
+        # landmark1.plot("green")
+        # landmark2.plot("green")
+        # landmark3.plot("green")
+        landmark1.plot("green")
+        landmark2.plot("green")
+        landmark3.plot("green")
 
 if __name__ == "__main__":
     main()
-
-#時間が経つに連れてパーティクルの分布が広がるように変更した
