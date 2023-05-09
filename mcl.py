@@ -1,4 +1,6 @@
 from sim import *
+from numpy.random import normal
+import math
 
 class Particle():
     def __init__(self, x, y, yaw, v, w, dt, noise):
@@ -50,6 +52,29 @@ class Landmark:
         plt.plot(self.x, self.y, marker='o', color = landmark_color, markersize=5)
         plt.pause(sim_time_step)
 
+class Camera:
+    def __init__(self, particle, landmark):
+        self.particle = particle
+        self.landmark = landmark
+
+    def calc(self):
+        measure = []
+        self.dx = self.landmark.x - self.particle.x
+        self.dy = self.landmark.y - self.particle.y
+        self.dl = normal(math.sqrt(self.dx * self.dx + self.dy * self.dy), 0.04) #add noise
+        # if self.dl <= 100: #must be change value
+        #     self.dyaw = normal(math.atan2(self.dy, self.dx) - self.particle.yaw, 0.04)
+        self.dyaw = normal(math.atan2(self.dy, self.dx), 0.04)
+        measure.append([self.dl, self.dyaw])
+        return measure
+
+    def plot(self, camera_color):
+        sim_time_step = 0.001
+        plt.plot((self.particle.x, self.particle.x + self.dl * math.cos(self.dyaw)), (self.particle.y,  self.particle.y + self.dl * math.sin(self.dyaw)), color = camera_color, markersize=10)
+        plt.pause(sim_time_step)
+
+
+
 def main():
     plt.clf()
     plt.xlim(-100, 100)
@@ -62,6 +87,11 @@ def main():
     landmark2 = Landmark(80, -60)
     landmark3 = Landmark(-50, 90)
 
+    camera1 = Camera(particle, landmark1)
+    camera2 = Camera(particle, landmark2)
+    camera3 = Camera(particle, landmark3)
+
+
 
     while True:
         particle.update()
@@ -73,6 +103,13 @@ def main():
         landmark1.plot("green")
         landmark2.plot("green")
         landmark3.plot("green")
+        camera1.calc()
+        camera2.calc()
+        camera3.calc()
+        camera1.plot("pink")
+        camera2.plot("pink")
+        camera3.plot("pink")
+
 
 if __name__ == "__main__":
     main()
