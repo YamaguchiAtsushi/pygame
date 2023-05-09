@@ -19,8 +19,8 @@ class Particle():
         self.yaw += self.w * self.dt
         self.noise += 0.0001
         for i in range(self.particle_num):
-            self.x += random.gauss(0, 100 * self.noise)
-            self.y += random.gauss(0, 100 * self.noise)
+            self.x += random.gauss(0, (100 + 0.1 * i) * self.noise)
+            self.y += random.gauss(0, (100 + 0.1 * i) * self.noise)
             self.yaw += random.gauss(0, 0.0001)
             self.particles.append([self.x, self.y, self.yaw])
             # print(i, "=", self.particles)
@@ -49,3 +49,5 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+#時間が経つに連れてパーティクルの分布が広がるように変更した
